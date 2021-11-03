@@ -34,23 +34,34 @@ class TextEditor implements ActionListener {
 
     JFrame f;
     JMenuBar menuBar;
-    JMenu file,edit,themes,help;
+    JMenu file,
+            edit,
+            themes,
+            help;
     JTextArea textArea;
     JScrollPane scroll;
-    JMenuItem darkTheme,moonLightTheme,save,open,close,cut,copy,paste,New,selectAll,videoHelp,documentHelp,fontSize;
+    JMenuItem darkTheme,
+            moonLightTheme,
+            defaultTheme,
+            save,
+            open,
+            close,
+            cut,
+            copy,
+            paste,
+            New,
+            selectAll,
+            videoHelp,
+            documentHelp,
+            fontSize;
     JPanel saveFileOptionWindow;
     JLabel fileLabel, dirLabel;
     JTextField fileName, dirName;
 
-
-
     TextEditor(){
-
         f = new JFrame("Untitled_Document-1"); //setting the frame
-
         Image img = Toolkit.getDefaultToolkit().getImage("src\\com\\company\\logo.JPG"); //adding image
         f.setIconImage(img);
-
         menuBar = new JMenuBar();
 
         //menues
@@ -59,14 +70,12 @@ class TextEditor implements ActionListener {
         themes = new JMenu("Themes");
         help = new JMenu("Help");
 
-
         //adding menues to menubar
         menuBar.add(file);
         menuBar.add(edit);
         menuBar.add(themes);
         menuBar.add(help);
         f.setJMenuBar(menuBar);
-
 
         //adding submenus to file
         save = new JMenuItem("Save");
@@ -89,16 +98,13 @@ class TextEditor implements ActionListener {
         edit.add(selectAll);
         edit.add(fontSize);
 
-
-        //adding submenues to tools menu
-
-
         //adding themes
         darkTheme = new JMenuItem("Dark Theme");
         moonLightTheme = new JMenuItem("Moonlight Theme");
+        defaultTheme = new JMenuItem("Default Theme");
         themes.add(darkTheme);
         themes.add(moonLightTheme);
-
+        themes.add(defaultTheme);
 
         //help menu
         videoHelp = new JMenuItem("Video Reference");
@@ -109,36 +115,35 @@ class TextEditor implements ActionListener {
         //Textarea
         textArea = new JTextArea(32,88);
         f.add(textArea);
+
         //scrollpane
         scroll = new JScrollPane(textArea);
         scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         f.add(scroll);
 
-
         //adding event listeners for cut , copy & paste
         cut.addActionListener(this);
         copy.addActionListener(this);
         paste.addActionListener(this);
         selectAll.addActionListener(this);
-        fontSize.addActionListener(this);//change the font size
+        fontSize.addActionListener(this); //change the font size
         open.addActionListener(this); //open the file
-        save.addActionListener(this);//Save the file
-        New.addActionListener(this);//Create the new document
-        darkTheme.addActionListener(this);//dark theme
-        moonLightTheme.addActionListener(this);//moonlight theme
-        videoHelp.addActionListener(this);//video help option
-        documentHelp.addActionListener(this);//document help option
-        close.addActionListener(this);//close the window
+        save.addActionListener(this); //Save the file
+        New.addActionListener(this); //Create the new document
+        darkTheme.addActionListener(this); //dark theme
+        moonLightTheme.addActionListener(this); //moonlight theme
+        defaultTheme.addActionListener(this); // default theme
+        videoHelp.addActionListener(this); //video help option
+        documentHelp.addActionListener(this); //document help option
+        close.addActionListener(this); //close the window
+
         f.addWindowListener(new WindowListener() {
             @Override
-            public void windowOpened(WindowEvent e) {
-
-            }
+            public void windowOpened(WindowEvent windowEvent) {}
 
             @Override
             public void windowClosing(WindowEvent e) {
-
                 int confirmExit = JOptionPane.showConfirmDialog(f,"Do you want to exit?","Confirm Before Saving...",JOptionPane.YES_NO_OPTION);
 
                 if (confirmExit == JOptionPane.YES_OPTION)
@@ -148,54 +153,37 @@ class TextEditor implements ActionListener {
             }
 
             @Override
-            public void windowClosed(WindowEvent e) {
-
-            }
+            public void windowClosed(WindowEvent windowEvent) {}
 
             @Override
-            public void windowIconified(WindowEvent e) {
-
-            }
+            public void windowIconified(WindowEvent windowEvent) {}
 
             @Override
-            public void windowDeiconified(WindowEvent e) {
-
-            }
+            public void windowDeiconified(WindowEvent windowEvent) {}
 
             @Override
-            public void windowActivated(WindowEvent e) {
-
-            }
+            public void windowActivated(WindowEvent windowEvent) {}
 
             @Override
-            public void windowDeactivated(WindowEvent e) {
-
-            }
+            public void windowDeactivated(WindowEvent windowEvent) {}
         });
 
         //Keyboard Listeners
         KeyListener k = new KeyListener() {
-
             @Override
             public void keyTyped(KeyEvent e) { }
 
             @Override
             public void keyPressed(KeyEvent e) {
-
                 int keyCode = e.getKeyCode();
-
-                if (keyCode == KeyEvent.VK_S && e.isControlDown()){
-
+                if (keyCode == KeyEvent.VK_S && e.isControlDown())
                     saveTheFile(); //Saving the file
-                }
             }
 
             @Override
             public void keyReleased(KeyEvent e) { }
         };
-
         textArea.addKeyListener(k);
-
 
         //Default Operations for frame
         f.setSize(1000,596);
@@ -208,7 +196,6 @@ class TextEditor implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-
         //Copy paste operations
         if (e.getSource()==cut)
             textArea.cut();
@@ -219,60 +206,38 @@ class TextEditor implements ActionListener {
         if (e.getSource()==selectAll)
             textArea.selectAll();
 
-
         //change the fontsize by value
         if (e.getSource()==fontSize){
 
             String sizeOfFont = JOptionPane.showInputDialog(f,"Enter Font Size",JOptionPane.OK_CANCEL_OPTION);
-
                 if (sizeOfFont != null){
-
                     int convertSizeOfFont = Integer.parseInt(sizeOfFont);
-
                     Font font = new Font(Font.SANS_SERIF,Font.PLAIN,convertSizeOfFont);
-
                     textArea.setFont(font);
-
                 }
-
         }
 
         //Open the file
         if (e.getSource()==open){
-
             JFileChooser chooseFile = new JFileChooser();
-
             int i = chooseFile.showOpenDialog(f);
-
             if (i == JFileChooser.APPROVE_OPTION){
-
                 File file = chooseFile.getSelectedFile(); //select the file
-
                 String filePath = file.getPath(); //get the file path
-
                 String fileNameToShow = file.getName(); //get the file name
-
                 f.setTitle(fileNameToShow);
 
                try {
-
                    BufferedReader readFile = new BufferedReader(new FileReader(filePath));
-
                    String tempString1 = "";
-
                    String tempString2 = "";
 
-                   while ((tempString1 = readFile.readLine()) != null){
-
+                   while ((tempString1 = readFile.readLine()) != null)
                         tempString2 += tempString1 + "\n";
-                   }
 
                    textArea.setText(tempString2);
-
                    readFile.close();
-
                }catch (Exception ae){
-
                    ae.printStackTrace();
                }
             }
@@ -280,119 +245,82 @@ class TextEditor implements ActionListener {
 
 
         //Save the file
-        if (e.getSource()==save){
-            saveTheFile();
+        if (e.getSource()==save) saveTheFile();
 
-        }
 
         //New menu operations
-        if (e.getSource()==New){
-            textArea.setText("");
-        }
+        if (e.getSource()==New) textArea.setText("");
+
 
         //Exit from the window
-        if (e.getSource()==close){
-            System.exit(1);
-        }
+        if (e.getSource()==close) System.exit(1);
+
 
         //themes area
         if (e.getSource()==darkTheme){
-
             textArea.setBackground(Color.DARK_GRAY);        //dark Theme
-
             textArea.setForeground(Color.WHITE);
         }
 
         if (e.getSource()==moonLightTheme){
-
             textArea.setBackground(new Color(107, 169, 255));
+            textArea.setForeground(Color.black);
+        }
 
+        if (e.getSource() == defaultTheme){
+            textArea.setBackground(new Color(255, 255, 255));
             textArea.setForeground(Color.black);
         }
 
         //help section (It opens the youtube channel page)
         if (e.getSource()==videoHelp){
-
             try {
-
                 String url = "https://www.youtube.com/c/technovik";
-
                 Desktop.getDesktop().browse(URI.create(url));
-
             }catch (Exception a){
-
                 a.printStackTrace();
             }
         }
 
         if (e.getSource()==documentHelp){
-
             try {
-
                 String url = "http://www.technovik.ml";
-
                 Desktop.getDesktop().browse(URI.create(url));
-
             }catch (Exception a){
-
                 a.printStackTrace();
             }
         }
-
-
-
     }
 
 //Save the file
-
     public void saveTheFile(){
-
         saveFileOptionWindow = new JPanel(new GridLayout(2,1));
-
         fileLabel = new JLabel("Filename      :- ");
-
         dirLabel = new JLabel("Save File To :- ");
-
         fileName = new JTextField();
-
         dirName = new JTextField();
 
         saveFileOptionWindow.add(fileLabel);
-
         saveFileOptionWindow.add(fileName);
-
         saveFileOptionWindow.add(dirLabel);
-
         saveFileOptionWindow.add(dirName);
 
         JOptionPane.showMessageDialog(f,saveFileOptionWindow); //show the saving dialogue box
-
         String fileContent = textArea.getText();
-
         String filePath = dirName.getText();
 
         try {
-
             BufferedWriter writeContent = new BufferedWriter(new FileWriter(filePath));
-
             writeContent.write(fileContent);
-
             writeContent.close();
-
             JOptionPane.showMessageDialog(f,"File Successfully saved!");
-
         }catch (Exception ex){
-
             ex.printStackTrace();
         }
-
     }
 
-
     public static void main(String[] args) {
-
         new TextEditor();
-
     }
 }
 
